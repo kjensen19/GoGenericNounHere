@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+// Can call whenever you are constraining something to int64 or float64
+type Number interface {
+	int64 | float64
+}
+
 func main() {
 	//intialize the map for ints
 	ints := map[string]int64{
@@ -26,6 +31,10 @@ func main() {
 	fmt.Printf("Generic Sums, type params inferred: %v and %v\n",
 		SumIntsOrFloats(ints),
 		SumIntsOrFloats(floats))
+
+	fmt.Printf("Generic Sums with Constraint: %v and %v\n",
+		SumNumbers(ints),
+		SumNumbers(floats))
 }
 
 // adds together the values of m
@@ -50,6 +59,16 @@ func SumFloats(m map[string]float64) float64 {
 //
 //	⬇️Means any type that can be compared with == and !=
 func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
+	var s V
+	for _, v := range m {
+		s += v
+	}
+	return s
+}
+
+// SumNumbers sums the values of map m. Supports ints and floats
+// Just replaces the Union with a variable that is a union (compared to above)
+func SumNumbers[K comparable, V Number](m map[K]V) V {
 	var s V
 	for _, v := range m {
 		s += v
