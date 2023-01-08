@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 // Can call whenever you are constraining something to int64 or float64
+// replace the same union inside the function (see SumIntsOr... and SumNumbers below)
 type Number interface {
 	int64 | float64
 }
@@ -20,6 +21,7 @@ func main() {
 		"second": 26.99,
 	}
 
+	//All return the same values, with progressively more generalized functions
 	fmt.Printf("Non-Generic Sums: %v and %v\n",
 		SumInts(ints),
 		SumFloats(floats))
